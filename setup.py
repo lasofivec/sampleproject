@@ -7,12 +7,35 @@ https://github.com/lasofivec/sampleproject
 
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
+from setuptools import Extension
 from os import path
 # io.open is needed for projects that support Python 2.7
 # It ensures open() defaults to text mode with universal newlines,
 # and accepts an argument to specify the text encoding
 # Python 3 only projects can skip this import
 from io import open
+import numpy as np
+
+try:
+    from Cython.Distutils import build_ext
+except ImportError:
+    use_cython = False
+else:
+    use_cython = True
+
+
+cmdclass = {}
+ext_modules = []
+
+if use_cython:
+    ext_modules += [
+        Extension("sampleproject.sample_cython", ["src/sample/sample_cython.pyx"])
+    ]
+    cmdclass.update({'build_ext': build_ext})
+else:
+    ext_modules += [
+        Extension("sampleproject.sample_cython", ["src/sample/sample_cython.c"])
+    ]
 
 here = path.abspath(path.dirname(__file__))
 
@@ -24,6 +47,12 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 # Fields marked as "Optional" may be commented out.
 
 setup(
+    setup_requires=[
+                    'setuptools>=18.0'
+                    'cython>=0.26',
+                    'numpy',
+                    ],
+
     # This is the name of your project. The first time you publish this
     # package, this name will be registered for you. It will determine how
     # users can install this project, e.g.:
@@ -150,7 +179,13 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['peppercorn'],  # Optional
+    install_requires=['peppercorn', 'numpy', 'cython'],  # Optional
+
+    cmdclass=cmdclass,
+
+    ext_modules=ext_modules,
+
+    include_dirs=[np.get_include()],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
