@@ -14,10 +14,10 @@ from os import path
 # and accepts an argument to specify the text encoding
 # Python 3 only projects can skip this import
 from io import open
-import numpy as np
 
 try:
     from Cython.Distutils import build_ext
+    import numpy as np
 except ImportError:
     use_cython = False
 else:
@@ -32,10 +32,13 @@ if use_cython:
         Extension("sampleproject.sample_cython", ["src/sample/sample_cython.pyx"])
     ]
     cmdclass.update({'build_ext': build_ext})
+    np_getinclude = np.get_include()
 else:
     ext_modules += [
         Extension("sampleproject.sample_cython", ["src/sample/sample_cython.c"])
     ]
+    np_getinclude = {}
+
 
 here = path.abspath(path.dirname(__file__))
 
@@ -72,7 +75,7 @@ setup(
     # For a discussion on single-sourcing the version across setup.py and the
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.0.2',  # Required
+    version='1.0.6',  # Required
 
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
@@ -185,7 +188,7 @@ setup(
 
     ext_modules=ext_modules,
 
-    include_dirs=[np.get_include()],
+    include_dirs=[np_getinclude],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
