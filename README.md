@@ -4,6 +4,8 @@ A sample project that exists as an aid to the [Python Packaging User
 Guide][packaging guide]'s [Tutorial on Packaging and Distributing
 Projects][distribution tutorial].
 
+**Modification**: I made it a Cython project using numpy.
+
 This project does not aim to cover best practices for Python project
 development as a whole. For example, it does not provide guidance or tool
 recommendations for version control, documentation, or testing.
