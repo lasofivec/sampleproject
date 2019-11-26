@@ -15,9 +15,6 @@ from os import path
 # Python 3 only projects can skip this import
 from io import open
 
-from setuptools import dist  # Install numpy right now
-dist.Distribution().fetch_build_eggs(['Cython>=0.26', 'numpy'])
-
 from Cython.Distutils import build_ext
 import numpy as np
 
@@ -26,7 +23,8 @@ cmdclass = {}
 ext_modules = []
 
 ext_modules += [
-                Extension("sampleproject.sample_cython", ["src/sample/sample_cython.pyx"])
+                Extension("sampleproject.sample_cython",
+                          ["src/sample/sample_cython.pyx"])
                 ]
 cmdclass.update({'build_ext': build_ext})
 np_getinclude = np.get_include()
@@ -67,7 +65,7 @@ setup(
     # For a discussion on single-sourcing the version across setup.py and the
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.0.10',  # Required
+    version='1.0.11',  # Required
 
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
