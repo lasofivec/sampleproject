@@ -38,6 +38,7 @@ install:
 
 
 script:
+  - python --version
   - python setup.py install
   - python -c "print('im here');"
   - python -c "import sample as sp; print(sp.__file__)"
