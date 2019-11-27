@@ -19,8 +19,10 @@ matrix:
       python: 3.6
       env: REPO=https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
 
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh
+
 install:
-  - wget "$REPO" -O miniconda.sh
+  - wget "$REPO" -O ~/miniconda.sh
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
@@ -36,7 +38,7 @@ install:
 script:
   - python setup.py install
   - python -c "print('im here');"
-  - python -c "import sampleproject as sp; print(sp.__version__)"
+  - python -c "import sample as sp; print(sp.__file__)"
 
 notifications:
   email: false
