@@ -28,7 +28,7 @@ install:
 
 
 script:
-  - python setup.py build_ext --inplace
+  - python setup.py install
   - python -c "print('im here');"
   - python -c "import npyx; print(npyx.__version)"
 
