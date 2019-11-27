@@ -23,8 +23,7 @@ install:
   - conda update -q conda
   - conda update -n root conda-build
   - conda config --set anaconda_upload no
-  - conda create -n travisconda python="$TRAVIS_PYTHON_VERSION"
-  - conda activate travisconda
+  - conda install python="$TRAVIS_PYTHON_VERSION"
   - conda install cython numpy
 
 
