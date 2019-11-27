@@ -36,7 +36,7 @@ install:
 script:
   - python setup.py install
   - python -c "print('im here');"
-  - python -c "import npyx; print(npyx.__version)"
+  - python -c "import sampleproject as sp; print(sp.__version__)"
 
 notifications:
   email: false
