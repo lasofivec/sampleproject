@@ -1,56 +1,46 @@
-# this file is *not* meant to cover or endorse the use of travis, but rather to
-# help confirm pull requests to this project.
-
 language: python
-
-
 matrix:
   include:
-    - os: linux
-      python: 3.7
-      env: REPO=https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    - os: linux
-      python: 3.6
-      env: REPO=https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    - os: osx
-      language: generic
-      env:
-        - REPO=https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-        - TRAVIS_PYTHON_VERSION=3.7
-    - os: osx
-      language: generic
-      env:
-        - REPO=https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-        - TRAVIS_PYTHON_VERSION=3.6
-
+  - os: linux
+    python: 3.7
+    env: REPO=https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+  - os: linux
+    python: 3.6
+    env: REPO=https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+  - os: osx
+    language: generic
+    env:
+    - REPO=https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+    - TRAVIS_PYTHON_VERSION=3.7
+  - os: osx
+    language: generic
+    env:
+    - REPO=https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+    - TRAVIS_PYTHON_VERSION=3.6
 install:
-  - wget "$REPO" -O ./miniconda.sh
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH="$HOME/miniconda/bin:$PATH"
-  - hash -r
-  - conda config --set always_yes yes --set changeps1 no
-  - conda install conda-build
-  - conda update -q conda
-  - conda update -n root conda-build
-  - conda config --set anaconda_upload no
-  - conda install python="$TRAVIS_PYTHON_VERSION"
-  - conda install cython numpy
-
-
+- wget "$REPO" -O ./miniconda.sh
+- bash miniconda.sh -b -p $HOME/miniconda
+- export PATH="$HOME/miniconda/bin:$PATH"
+- hash -r
+- conda config --set always_yes yes --set changeps1 no
+- conda install conda-build
+- conda update -q conda
+- conda update -n root conda-build
+- conda config --set anaconda_upload no
+- conda install python="$TRAVIS_PYTHON_VERSION"
+- conda install cython numpy
 script:
-  - python --version
-  - python setup.py install
-  - python -c "print('im here');"
-  - python -c "import sample as sp; print(sp.__file__)"
-
-
+- python --version
+- python setup.py install
+- python -c "print('im here');"
+- python -c "import sample as sp; print(sp.__file__)"
 deploy:
+  matrix:
   - provider: pypi
-    user: "__token__"
+    user: __token__
     skip_existing: true
     server: https://test.pypi.org/legacy/
-    password:
-      secure: f5emW7UPlYjR28vpCrTMSuamXsML5X7PbDVvwTbccBAOkP8sEZpRYdzpGjLNxcgX3DArX+Ice8zVLjLX4Kex40Po4HBVZQnpGzlq+M7W++i7XYrwKiRsXYa3BTXE58owZ/jMElxL4Z9t6Eb28xUMs0jtqwsAh3uRoGLGa2AHefKN2paK1rONovi3kXalmPEEn6v4pke7VzjuSxb8PF+Nx345S1FVdgNgKK3H80mZ4MQJI52yXyU4NN8CNbMnCaifPiCwFl7+U6FXsfHJ7kHHxEGj9Np5+0Bd6swQDU0jHoDNxdrCbVtpVJJoiru8/dq5Kr7pmsBmvy9zW4csEUJRAFPuxpLtDCPCfT1Ow6c6oM9ijGgojFamMKaqjyREmTL0bv13rJS1tioxUqQUpn29da7Mofoe9qF9UqUsiDQaxx0TlJ6XfOTE7EJSTKquiJGAtu+KwYg0H7h9eazd4cX2eKuXWTmC3xeDkNX8jpCHYYmLxJLyWHV939cUvpwjru2DgznHzHRoIn+UTPc68LqcQfQdlBqmKdPxiBAqoMUDhaPAApMoDKhlVGJlGZT5fholN1WmlUYLA2iL37Q0NW4Ev7O7xp5vzjsyB2gs+IptBLrNcJZoNNmFYWZsTyyfeVkgLs+JZeaK+9wgZSrqWs5csQ3684onardOnUCKZWdk9uc=
-
+  password:
+    secure: o63EC+U+EtdAgUSV3plrLfZ7QZ6Aflp0quV5jJQxD9w47Ds5i4k5GjEHogV8x8l5NGwxbXPKp/1eKEfYgFH/i+WUnj1n9reiYZBd0lkr2Ih9nExNEIrziMhPbqjDEYAB672bjkXseS6mF44boqDUEP3jyDaamLB+aR75RCMM1j6aha/54Ko88ZJKXBW5FuNSraBGzgvjVG0P63jG5epS85hX09dEcKNR0XO0kbiGfNnYIp78QBohO0Pdv99x2ryp/QaoWD4m7cMUOts2xIcI2KCJNMhZNdIS8C0TVvk2tgumb+G2px7PsOxA8yZgxLefs+A14IAjg6uKe/jmwrihN1V6R6FF3WCcxM6kdzt9bpr+QKBoXjkF8BdxVbgmdnxkr+Ah5WIxmw2boQoW/SIMy9GVPrgtkSvocN6NwOExsO4pagiOwTLIvjIe+/0+OJt/Pud+mwF/94HD+B7j/XxsK7QehLCd9v5NTrdNgpS/TiWOyCDP1DLnpl1V9/vZ56x9NSQhN4Wr6hRrTxjWNAYLxsMxZf6uR+WWg1TqyicVlGrSf0to2asNIPWTTeGq3tB0/7WNslRQzP7QD67p5SuX0Z3Sv0WnQx+rZH77EN6FPCbv8Xn+D4ff06VKHaXXOkiFdK+6pTQ1VmFVPH/ablbWODhhcja/O3Xn3d/zTIyM+oQ=
 notifications:
   email: false
