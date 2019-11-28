@@ -35,7 +35,6 @@ script:
 - python -c "print('im here');"
 - python -c "import sample as sp; print(sp.__file__)"
 deploy:
-  matrix:
   - provider: pypi
     user: __token__
     skip_existing: true
