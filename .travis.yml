@@ -43,5 +43,11 @@ script:
   - python -c "print('im here');"
   - python -c "import sample as sp; print(sp.__file__)"
 
+
+deploy:
+  provider: pypi
+    user: "__token__"
+    password: pypi-AgENdGVzdC5weXBpLm9yZwIkZjg4MWIxMTctZDZmMi00MzZhLWI4NDgtNjllY2MyMjdkMTQ2AAI1eyJwZXJtaXNzaW9ucyI6IHsicHJvamVjdHMiOiBbIm5weXgiXX0sICJ2ZXJzaW9uIjogMX0AAAYgv2iHQwp3KrEwlvZ9w8BPjSNuvyxgM8HF1lXRV4KeILk
+    
 notifications:
   email: false
