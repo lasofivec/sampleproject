@@ -14,6 +14,8 @@ from os import path
 # and accepts an argument to specify the text encoding
 # Python 3 only projects can skip this import
 from io import open
+# importing local module
+import version_number as vn
 
 from Cython.Distutils import build_ext
 import numpy as np
@@ -36,6 +38,8 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
+
+version = vn.updateversion()
 # Arguments marked as "Required" below must be included for upload to PyPI.
 # Fields marked as "Optional" may be commented out.
 
@@ -59,7 +63,7 @@ setup(
     # For a discussion on single-sourcing the version across setup.py and the
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.0.20',  # Required
+    version=version,  # Required
 
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
@@ -102,6 +106,7 @@ setup(
     # above.
     author_email='laura.mendoza@inria.fr',  # Optional
 
+    py_modules=["version_number"],
     # Classifiers help users find your project by categorizing it.
     #
     # For a list of valid classifiers, see https://pypi.org/classifiers/
@@ -140,7 +145,7 @@ setup(
 
     # When your source code is in a subdirectory under the project root, e.g.
     # `src/`, it is necessary to specify the `package_dir` argument.
-    package_dir={'': 'src'},  # Optional
+    package_dir={'': 'src'},
 
     # You can just specify package directories manually here if your project is
     # simple. Or you can use find_packages().
@@ -151,7 +156,7 @@ setup(
     #
     #   py_modules=["my_module"],
     #
-    packages=find_packages(where='src'),  # Required
+    packages=find_packages(where='src'),
 
     # Specify which Python versions you support. In contrast to the
     # 'Programming Language' classifiers above, 'pip install' will check this
